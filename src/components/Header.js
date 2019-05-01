@@ -2,17 +2,17 @@ import React from 'react';
 import { View, StyleSheet, Text } from 'react-native';
 
 const Header = (props) => (
-    <View style={style.container}>
-        <Text style={style.title}>People </Text>
+    <View style={styles.container}>
+        <Text style={styles.title}>{props.title} </Text>
     </View>
 
 );
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
     container: {
         marginTop: 25,
         backgroundColor: '#4886ea',
-        alignItems: 'center',
+        alignItems: 'center', //Alinhar verticalmente
         justifyContent: 'center'
     },
     title: {
