@@ -1,55 +1,51 @@
-import React from 'react';
-import { View } from 'react-native';
+import { createAppContainer, createStackNavigator } from 'react-navigation';
+import PeoplePage from './src/pages/PeoplePage'
+import PeopleDetailPage from './src/pages/PeopleDetailPage';
+import { capitalizaFirstLetter } from './src/util';
 
-import Header from './src/components/Header';
-import PeopleList from './src/components/PeopleList'
+const StackNavigator = createStackNavigator({
+  'Main': {
+    screen: PeoplePage
+  },
 
-//Lib para acesso e apis
-import axios from 'axios';
+  'PeopleDetail': {
+    screen: PeopleDetailPage,
+    navigationOptions: ({ navigation }) => {
+			const peopleName = capitalizaFirstLetter(
+				navigation.state.params.people.name.first );
+			
 
-export default class App extends React.Component {
-  constructor(props){
-    super(props);
-
-    this.state = {
-      peoples:[]
-    };
-
+			return ({
+				title: peopleName,
+				headerTitleStyle: {
+					color: 'white',
+					fontSize: 30,
+				}
+			});
+		}
+    
   }
-  
-  componentDidMount(){
-    axios
-    .get('https://randomuser.me/api/?nat=br&results=5')
-    .then(response => {
-      const { results } = response.data;
+}, {
+    defaultNavigationOptions: {
+      title: 'Pessoas',
+      headerTintColor: 'white', //Cor da botao de voltar do header.
+      headerStyle: {
+        backgroundColor: '#4886ea',
+        borderBottomWidth: 1,
+        borderBottomColor: '#C5C5C5',
 
-      this.setState({
-        peoples: results
-      } )
+      },
+      headerTitleStyle: {
+        color: 'white',
+        fontSize: 30,
+        flexGrow: 1, //Utilizado para ocupar todo o espaço
+        textAlign: 'center'
+      }
+    }
 
-/*      const names = results.map(people => {
-        return people.name.first;
-      })
-*/
-    }) 
-  
-  }
-  renderList(){
-// Criado uma constante que e preenchida percorrendo o names.
-// usando o .map, vc percorre o array..no primeiro parametro criamos uma arrow function
-// criando um component text      
-/*      const textElements = names.map(name => {
-        return <Text key={name}>{ name }</Text>
-      })*/
-      
+  });
 
-  }
-    render() {
-    return (
-      <View >
-        <Header title="Pessoas"  />
-        <PeopleList peoples={this.state.peoples} />
-      </View>
-    );
-  }
-}
+const AppContainer = createAppContainer(StackNavigator);
+
+export default AppContainer;
+

@@ -1,23 +1,25 @@
 import React from 'react';
-import { View, StyleSheet  } from 'react-native';
+import { StyleSheet, ScrollView  } from 'react-native';
 
 
 import PeopleListItem from './PeopleListItem';
 
 const PeopleList = (props) => {
-    const { peoples } = props;
+    const { peoples, onPressItem } = props;
     const items = peoples.map(people => {
         return ( 
+
             <PeopleListItem 
                 key={people.name.first}  
-                people={people} /> 
+                people={people}
+                navigateToPeopleDetail={onPressItem} /> 
             )
     });
 
     return (
-        <View style={styles.container}>
+        <ScrollView style={styles.container}>
             { items }
-        </View> 
+        </ScrollView> 
 
     )
     
